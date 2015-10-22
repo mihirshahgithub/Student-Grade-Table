@@ -1,20 +1,37 @@
-/**
- * Define all global variables here
- */
+*/
+var student_grade_table;
+var student_name;
+var student_course;
+var student_grade;
+var operations;
+var grade_average;
+var add_student;
+var add_button;
+var cancel_button;
+
+var student_array=["#studentName","#course","#studentGrade"];
+
+
+//this part is complete
 /**
  * student_array - global array to hold student objects
  * @type {Array}
- */
 
-/**
+ /**
+ //this part is complete
  * inputIds - id's of the elements that are used to add students
- * @type {string[]}
- */
 
+
+
+ * @type {string[]}*/
+//
 /**
  * addClicked - Event Handler when user clicks the add button
- */
 
+ */
+function addClick(this){
+    console.log("you just clicked homie")
+};
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
