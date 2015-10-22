@@ -1,3 +1,4 @@
+just checking
 */
 var student_grade_table;
 var student_name;
@@ -73,3 +74,5 @@ function addClick(this){
 /**
  * Listen for the document to load and reset the data to the initial state
  */
+
+$("<input:text>").val="";
