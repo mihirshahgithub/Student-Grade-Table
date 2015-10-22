@@ -1,12 +1,20 @@
 /**
  * Define all global variables here
-
  */
+var student_grade_table
+var student_name
+var student_course
+var student_grade
+var operations
+var grade_avg
+var addButton
+var cancelButton
+
 /**
  * student_array - global array to hold student objects
  * @type {Array}
- */
-
+ **/
+student_array[''];
 /**
  * inputIds - id's of the elements that are used to add students
  * @type {string[]}
@@ -23,7 +31,7 @@ function addClick(){
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
 function cancelClick(){
-    console.log("clicked cancel");
+    console.log($("<input:text>").val="");
 };
 /**
  * addStudent - creates a student objects based on input fields in the form and adds the object to global student array
