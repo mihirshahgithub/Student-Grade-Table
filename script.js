@@ -1,5 +1,6 @@
 /**
  * Define all global variables here
+
  */
 /**
  * student_array - global array to hold student objects
@@ -14,11 +15,16 @@
 /**
  * addClicked - Event Handler when user clicks the add button
  */
+function addClick(){
+    console.log("just clicked add");
+};
 
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
-
+function cancelClick(){
+    console.log("clicked cancel");
+};
 /**
  * addStudent - creates a student objects based on input fields in the form and adds the object to global student array
  *
