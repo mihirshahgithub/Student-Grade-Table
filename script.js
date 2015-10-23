@@ -12,18 +12,16 @@ var add_student;
 var add_button;
 var cancel_button;
 
-var student_array=["#studentName","#course","#studentGrade"];
 
 
-//this part is complete
 /**
  * student_array - global array to hold student objects
  * @type {Array}
+ * */
+ var student_array=["#studentName","#course","#studentGrade"];
 
- /**
- //this part is complete
->>>>>>> 4bf63a65eb1b12f56acf3940b236cc274632e8da
- * inputIds - id's of the elements that are used to add students
+
+/** inputIds - id's of the elements that are used to add students
 
 
 
@@ -31,7 +29,6 @@ var student_array=["#studentName","#course","#studentGrade"];
 //
 /**
  * addClicked - Event Handler when user clicks the add button
-
  */
 function addClick(){
     console.log("just clicked add");
