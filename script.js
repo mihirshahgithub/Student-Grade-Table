@@ -1,5 +1,5 @@
-just checking
-*/
+
+//*/
 var student_grade_table;
 var student_name;
 var student_course;
@@ -10,7 +10,7 @@ var add_student;
 var add_button;
 var cancel_button;
 
-var student_array=["#studentName","#course","#studentGrade"];
+var student_array=[];
 
 
 //this part is complete
@@ -30,9 +30,27 @@ var student_array=["#studentName","#course","#studentGrade"];
  * addClicked - Event Handler when user clicks the add button
 
  */
-function addClick(this){
-    console.log("you just clicked homie")
-};
+function myFunction() {
+    x= document.getElementById("studentName").value="Mihir Shah";
+    document.getElementById("addTest").innerHTML=x;
+
+    a=document.getElementById("course").value = "LearningFuze";
+    document.getElementById("addCourse").innerHTML=a;
+
+    b=document.getElementById("studentGrade").value = "Unknown";
+    document.getElementById("addStudentGrade").innerHTML=b;
+
+
+}
+
+
+function myCancel(){
+    document.getElementById("studentName").value = "";
+    document.getElementById("course").value = "";
+    document.getElementById("studentGrade").value = ""
+
+}
+
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
@@ -75,4 +93,3 @@ function addClick(this){
  * Listen for the document to load and reset the data to the initial state
  */
 
-$("<input:text>").val="";
