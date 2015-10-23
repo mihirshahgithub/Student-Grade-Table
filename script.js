@@ -22,11 +22,11 @@ var cancel_button;
 
 
 /** inputIds - id's of the elements that are used to add students
-
-
-
  * @type {string[]}*/
 //
+studentName = $("");
+studentCourse =$("");
+studentGrade = $("");
 /**
  * addClicked - Event Handler when user clicks the add button
  */
