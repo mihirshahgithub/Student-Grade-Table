@@ -1,7 +1,4 @@
-/**
- * Define all global variables here
-just checking
-*/
+
 var student_grade_table;
 var student_name;
 var student_course;
@@ -11,6 +8,7 @@ var grade_average;
 var add_student;
 var add_button;
 var cancel_button;
+
 
 
 
@@ -30,15 +28,33 @@ studentGrade = $("");
 /**
  * addClicked - Event Handler when user clicks the add button
  */
-function addClick(){
-    console.log("just clicked add");
-};
+
+function myFunction() {
+    x= document.getElementById("studentName").value="Mihir Shah";
+    document.getElementById("addTest").innerHTML=x;
+
+    a=document.getElementById("course").value = "LearningFuze";
+    document.getElementById("addCourse").innerHTML=a;
+
+    b=document.getElementById("studentGrade").value = "Unknown";
+    document.getElementById("addStudentGrade").innerHTML=b;
+
+
+}
+
+
+function myCancel(){
+    document.getElementById("studentName").value = "";
+    document.getElementById("course").value = "";
+    document.getElementById("studentGrade").value = ""
+
+}
+
+
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
-function cancelClick(){
-    console.log($("<input:text>").val="");
-};
+
 /**
  * addStudent - creates a student objects based on input fields in the form and adds the object to global student array
  *
@@ -77,4 +93,3 @@ function cancelClick(){
  * Listen for the document to load and reset the data to the initial state
  */
 
-$("<input:text>").val="";
