@@ -1,5 +1,4 @@
 
-//*/
 var student_grade_table;
 var student_name;
 var student_course;
@@ -10,17 +9,17 @@ var add_student;
 var add_button;
 var cancel_button;
 
-var student_array=[];
 
 
-//this part is complete
+
 /**
  * student_array - global array to hold student objects
  * @type {Array}
+ * */
+ var student_array=["#studentName","#course","#studentGrade"];
 
- /**
- //this part is complete
- * inputIds - id's of the elements that are used to add students
+
+/** inputIds - id's of the elements that are used to add students
 
 
 
@@ -28,8 +27,8 @@ var student_array=[];
 //
 /**
  * addClicked - Event Handler when user clicks the add button
-
  */
+
 function myFunction() {
     x= document.getElementById("studentName").value="Mihir Shah";
     document.getElementById("addTest").innerHTML=x;
@@ -50,6 +49,7 @@ function myCancel(){
     document.getElementById("studentGrade").value = ""
 
 }
+
 
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
