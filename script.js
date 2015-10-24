@@ -1,4 +1,3 @@
-
 var student_grade_table;
 var student_name;
 var student_course;
@@ -10,40 +9,36 @@ var add_button;
 var cancel_button;
 
 
-
-
 /**
  * student_array - global array to hold student objects
  * @type {Array}
  * */
- var student_array=["#studentName","#course","#studentGrade"];
+var student_array = ["#studentName", "#course", "#studentGrade"];
 
 
 /** inputIds - id's of the elements that are used to add students
  * @type {string[]}*/
 //
 studentName = $("");
-studentCourse =$("");
+studentCourse = $("");
 studentGrade = $("");
 /**
  * addClicked - Event Handler when user clicks the add button
  */
 
 function myFunction() {
-    x= document.getElementById("studentName").value="Mihir Shah";
-    document.getElementById("addTest").innerHTML=x;
+    x = document.getElementById("studentName").value = "";
+    document.getElementById("addTest").innerHTML = x;
+    sName = x
 
-    a=document.getElementById("course").value = "LearningFuze";
-    document.getElementById("addCourse").innerHTML=a;
+    a = document.getElementById("course").value = "";
+    document.getElementById("addCourse").innerHTML = a;
 
-    b=document.getElementById("studentGrade").value = "Unknown";
-    document.getElementById("addStudentGrade").innerHTML=b;
-
-
+    b = document.getElementById("studentGrade").value = "";
+    document.getElementById("addStudentGrade").innerHTML = b;
 }
 
-
-function myCancel(){
+function myCancel() {
     document.getElementById("studentName").value = "";
     document.getElementById("course").value = "";
     document.getElementById("studentGrade").value = ""
@@ -60,7 +55,15 @@ function myCancel(){
  *
  * @return undefined
  */
+    var sName = {}
 
+var data = [{
+    name: "chris",
+    course: "algebra",
+    grade: 50
+}]
+
+append(myFunction(x));
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
@@ -83,6 +86,9 @@ function myCancel(){
  * into the .student_list tbody
  * @param studentObj
  */
+function addStuderntToDom(studentObject) {
+
+    *}
 
 /**
  * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
