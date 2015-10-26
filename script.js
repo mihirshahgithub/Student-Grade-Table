@@ -1,17 +1,17 @@
 /**
  * Define all global variables here
  */
-    //Here, I'm setting up all the possible global variables that could exist, and that could be useful moving forward
+//Here, I'm setting up all the possible global variables that could exist, and that could be useful moving forward
 /*unnecessary variables
-var student_name_table;
-var student_course_table;
-var student_grade_table;
-var operations_table;
+ var student_name_table;
+ var student_course_table;
+ var student_grade_table;
+ var operations_table;
 
-var delete_button;
-var add_button;
-var cancel_button;
-*/
+ var delete_button;
+ var add_button;
+ var cancel_button;
+ */
 var student_name_input;
 var student_course_input;
 var student_grade_input;
@@ -21,7 +21,7 @@ var student_grade_average;
  * @type {Array}
  */
 //define global array that will hold the student objects (created separately)
-var student_array=[];
+var student_array = [];
 
 
 /**
@@ -36,7 +36,7 @@ var student_array=[];
  * addClicked - Event Handler when user clicks the add button
  */
 //Here, we are going to use a function called addClick to handle all events when the add button is clicked
-$(document).ready(function(){
+$(document).ready(function () {
     addClick();
     //by adding a cancelClicked() into the document.ready, I ensure that it will load after all other events have subsided
     //prevents double adding data upon clicking add button
@@ -44,16 +44,16 @@ $(document).ready(function(){
     //
 
 });
-    function addClick(){
-    $("#addClicked").click(function(){
-        var student_name_input=$("#studentName").val();  //here, I'm setting up to add to the DOM
+function addClick() {
+    $("#addClicked").click(function () {
+        var student_name_input = $("#studentName").val();  //here, I'm setting up to add to the DOM
         $("#studentName").val(student_name_input);      //here, I add #studentName to the DOM
-        var student_course_input=$("#course").val();    //I'm having major issues with my first entry, second entry normalizes, all new entries append to the original entry, on 2nd click, they make their own row
+        var student_course_input = $("#course").val();
         $("#course").val(student_course_input);
-        var student_grade_input= $("#studentGrade").val();
+        var student_grade_input = $("#studentGrade").val();
         $("#studentGrade").val(student_grade_input);
 
-        var student_object={
+        var student_object = {
             name: student_name_input,
             course: student_course_input,
             grade: student_grade_input
@@ -63,7 +63,7 @@ $(document).ready(function(){
         console.log(student_array);
         //define student object, append to DOM
         //loop through array; figure out why there are double entries, etc.
-        for(var i=0;i<student_array.length;i++) {
+        for (var i = 0; i < student_array.length; i++) {
             var nName = $('<td>', {
                 text: student_array[i].name
             });
@@ -74,36 +74,35 @@ $(document).ready(function(){
                 text: student_array[i].grade
             });
 
-            var deleteB=$('<button>',{
-               type:"button",
-                class:"btn btn-danger",
-                text:"Delete"
+            var deleteB = $('<button>', {
+                type: "button",
+                class: "btn btn-danger",
+                text: "Delete"
             });
         }
         var nRow = $('<tr>', {
             id: "tableBody"
         });
         $('#tableBody').prepend(nRow);
-        $(nRow).append(nName, nCourse, nGrade,deleteB);
+        $(nRow).append(nName, nCourse, nGrade, deleteB);
 
         /*student_object.name=student_name_input;
-        $("#tableBody").append(student_object.name);
-        student_object.course=student_course_input;
-        $("#tableBody").append(student_object.course);
-        student_object.grade=student_grade_input;
-        $("#tableBody").append(student_object.grade);*/
+         $("#tableBody").append(student_object.name);
+         student_object.course=student_course_input;
+         $("#tableBody").append(student_object.course);
+         student_object.grade=student_grade_input;
+         $("#tableBody").append(student_object.grade);*/
 
     });
 }
-
 
 
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
 //this will clear out the AddStudentForm  (now we have to figure out a way to add new rows of data, likely using a for loop)
-function cancelClicked(){
-    $("#clickCancel").click(function(){
+function cancelClicked() {
+    $("#clickCancel").click(function () {
         $("#studentName").val('');
         $("#course").val('');
         $("#studentGrade").val('');
@@ -126,22 +125,22 @@ function cancelClicked(){
  *
  */
 //grade average function call calculates correct average of input; however, in the console, the value for sum and average come up as undefined. check up on this
-    function gradeAverage(){
-    var sum=0;
-    var average=0;
+function gradeAverage() {
+    var sum = 0;
+    var average = 0;
 
-    for(var i=0;i<student_array.length;i++){
-       sum+=parseInt(student_array[i].grade);
+    for (var i = 0; i < student_array.length; i++) {
+        sum += parseInt(student_array[i].grade);
 
     }
-    average=sum/student_array.length;
-    $(".avgGrade .badge").html();
+    average = sum / student_array.length;
+
     return average;
 
 
 }
-$(".avgGrade").html(gradeAverage()); //average not being appended, fix this
 
+$(".avgGrade").text(gradeAverage()); //average not being appended, fix this
 
 
 /**
@@ -149,7 +148,7 @@ $(".avgGrade").html(gradeAverage()); //average not being appended, fix this
  */
 
 
-function updateData(){
+function updateData() {
     updateStudentList();
     gradeAverage();
 };
@@ -157,7 +156,7 @@ function updateData(){
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
 //a bit lost on this function. My dom creation occurred in the addClick function, not its own function
-    function updateStudentList() {
+function updateStudentList() {
     for (var list = 0; list < student_array.length; list++) {
         $("#tableBody").empty();
     }
@@ -198,7 +197,7 @@ function updateData(){
         updateStudentList()
     }
 }
-
+reset();
 
 /**
  * Listen for the document to load and reset the data to the initial state
