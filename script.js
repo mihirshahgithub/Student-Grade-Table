@@ -2,15 +2,16 @@
  * Define all global variables here
  */
     //Here, I'm setting up all the possible global variables that could exist, and that could be useful moving forward
-/*uncessary variables
+/*unnecessary variables
 var student_name_table;
 var student_course_table;
 var student_grade_table;
 var operations_table;
-*/
+
 var delete_button;
 var add_button;
 var cancel_button;
+*/
 var student_name_input;
 var student_course_input;
 var student_grade_input;
@@ -21,7 +22,7 @@ var student_grade_average;
  */
 //define global array that will hold the student objects (created separately)
 var student_array=[];
-var student_object={};
+
 
 /**
  * inputIds - id's of the elements that are used to add students
@@ -124,7 +125,7 @@ function cancelClicked(){
  * @returns {number}
  *
  */
-//gradeaverage function call calculates correct average of input; however, in the console, the value for sum comes up as undefined. check up on this
+//grade average function call calculates correct average of input; however, in the console, the value for sum and average come up as undefined. check up on this
     function gradeAverage(){
     var sum=0;
     var average=0;
@@ -134,54 +135,70 @@ function cancelClicked(){
 
     }
     average=sum/student_array.length;
-    $('.avgGrade .badge> span').html(average);
+    $(".avgGrade .badge").html();
     return average;
 
 
 }
-    gradeAverage();
+$(".avgGrade .badge").html(gradeAverage()); //average not being appended, fix this
 
 
 
 /**
  * updateData - centralized function to update the average and call student list update
  */
-function updateData(){};
+
+
+function updateData(){
+    updateStudentList();
+    gradeAverage();
+};
 /**
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
-    function updateStudentList(){};
-/**
- * addStudentToDom - take in a student object, create html elements from the values and then append the elements
- * into the .student_list tbody
- * @param studentObj
- */
-//function domCreation(i) {
-  /*  for(var i=0;i<student_array.length;i++) {
-        var nName = $('<td>', {
-            text: student_array[i].name
-        });
-        var nCourse = $('<td>', {
-            text: student_array[i].course
-        });
-        var nGrade = $('<td>', {
-            text: student_array[i].grade
-        });
+//a bit lost on this function. My dom creation occurred in the addClick function, not its own function
+    function updateStudentList() {
+    for (var list = 0; list < student_array.length; list++) {
+        $("#tableBody").empty();
     }
-    var nRow = $('<tr>', {
-        id: "tableBody"
-    });
-    $('#tableBody').prepend(nRow);
-    $(nRow).append(nName, nCourse, nGrade);
-} */
+    /**
+     * addStudentToDom - take in a student object, create html elements from the values and then append the elements
+     * into the .student_list tbody
+     * @param studentObj
+     */
+//function domCreation(i) {
+    /*  for(var i=0;i<student_array.length;i++) {
+     var nName = $('<td>', {
+     text: student_array[i].name
+     });
+     var nCourse = $('<td>', {
+     text: student_array[i].course
+     });
+     var nGrade = $('<td>', {
+     text: student_array[i].grade
+     });
+     }
+     var nRow = $('<tr>', {
+     id: "tableBody"
+     });
+     $('#tableBody').prepend(nRow);
+     $(nRow).append(nName, nCourse, nGrade);
+     } */
 
-/**
- * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
- */
+    /**
+     * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
+     */
 //set global variables to 0
-function reset(){
-
+    function reset() {
+        student_name_input = 0;
+        student_course_input = 0;
+        student_grade_input = 0;
+        student_grade_average = 0;
+        updateData();
+        updateStudentList()
+    }
 }
+
 
 /**
  * Listen for the document to load and reset the data to the initial state
