@@ -86,12 +86,12 @@ $(document).ready(function(){
         $('#tableBody').prepend(nRow);
         $(nRow).append(nName, nCourse, nGrade,deleteB);
 
-        student_object.name=student_name_input;
+        /*student_object.name=student_name_input;
         $("#tableBody").append(student_object.name);
         student_object.course=student_course_input;
         $("#tableBody").append(student_object.course);
         student_object.grade=student_grade_input;
-        $("#tableBody").append(student_object.grade);
+        $("#tableBody").append(student_object.grade);*/
 
     });
 }
@@ -140,7 +140,7 @@ function cancelClicked(){
 
 
 }
-$(".avgGrade .badge").html(gradeAverage()); //average not being appended, fix this
+$(".avgGrade").html(gradeAverage()); //average not being appended, fix this
 
 
 
