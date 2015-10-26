@@ -61,6 +61,7 @@ function addClick() {
 
         student_array.push(student_object);
         console.log(student_array);
+        gradeAverage();
         //define student object, append to DOM
         //loop through array; figure out why there are double entries, etc.
         for (var i = 0; i < student_array.length; i++) {
@@ -132,12 +133,12 @@ function gradeAverage() {
 
     }
     average = sum / student_array.length;
-
+    $(".avgGrade").text(average);
     return average;
 
 }
 
-$(".avgGrade").text(gradeAverage()); //average not being appended, fix this
+
 
 /**
  * addStudentToDom - take in a student object, create html elements from the values and then append the elements
