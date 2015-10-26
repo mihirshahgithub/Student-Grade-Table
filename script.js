@@ -1,59 +1,85 @@
-
+/**
+ * Define all global variables here
+ */
+    //Here, I'm setting up all the possible global variables that could exist, and that could be useful moving forward
+/*uncessary variables
+var student_name_table;
+var student_course_table;
 var student_grade_table;
-var student_name;
-var student_course;
-var student_grade;
-var operations;
-var grade_average;
-var add_student;
+var operations_table;
+*/
+var delete_button;
 var add_button;
 var cancel_button;
-
-
-
-
+var student_name_input;
+var student_course_input;
+var student_grade_input;
+var student_grade_average;
 /**
  * student_array - global array to hold student objects
  * @type {Array}
- * */
- var student_array=["#studentName","#course","#studentGrade"];
+ */
+//define global array that will hold the student objects (created separately)
+var student_array=[];
+var student_object={};
 
+/**
+ * inputIds - id's of the elements that are used to add students
+ * //Student Name will be added with the input id: "#student_name"
+ * //Student Course will be added with the input id: "#course"
+ * //Student grade will be added with the input id: "#student_grade
+ * @type {string[]}
+ */
 
-/** inputIds - id's of the elements that are used to add students
-
-
-
- * @type {string[]}*/
-//
 /**
  * addClicked - Event Handler when user clicks the add button
  */
+//Here, we are going to use a function called addClick to handle all events when the add button is clicked
+$(document).ready(function(){
+    addClick();
+    //by adding a cancelClicked() into the document.ready, I ensure that it will load after all other events have subsided
+    //prevents double adding data upon clicking add button
+    cancelClicked();
+});
+    function addClick(){
+    $("#addClicked").click(function(){
+        var student_name_input=$("#studentName").val();  //here, I'm setting up to add to the DOM
+        $("#studentName").val(student_name_input);      //here, I add #studentName to the DOM
+        var student_course_input=$("#course").val();
+        $("#course").val(student_course_input);
+        var student_grade_input= $("#studentGrade").val();
+        $("#studentGrade").val(student_grade_input);
 
-function myFunction() {
-    x= document.getElementById("studentName").value="Mihir Shah";
-    document.getElementById("addTest").innerHTML=x;
-
-    a=document.getElementById("course").value = "LearningFuze";
-    document.getElementById("addCourse").innerHTML=a;
-
-    b=document.getElementById("studentGrade").value = "Unknown";
-    document.getElementById("addStudentGrade").innerHTML=b;
-
-
+        var student_object={
+            name: student_name_input,
+            course: student_course_input,
+            grade: student_grade_input
+        };
+        //define student object, append to DOM
+        student_object.name=student_name_input;
+        $("#addTest").append(student_object.name);
+        student_object.course=student_course_input;
+        $("#addCourse").append(student_object.course);
+        student_object.grade=student_grade_input;
+        $("#addStudentGrade").append(student_object.grade);
+       student_array.push(student_object);
+        console.log(student_array);
+    });
 }
 
-
-function myCancel(){
-    document.getElementById("studentName").value = "";
-    document.getElementById("course").value = "";
-    document.getElementById("studentGrade").value = ""
-
-}
 
 
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
+//this will clear out the AddStudentForm  (now we have to figure out a way to add new rows of data, likely using a for loop)
+function cancelClicked(){
+    $("#clickCancel").click(function(){
+        $("#studentName").val('');
+        $("#course").val('');
+        $("#studentGrade").val('');
+    })
+}
 
 /**
  * addStudent - creates a student objects based on input fields in the form and adds the object to global student array
@@ -68,7 +94,17 @@ function myCancel(){
 /**
  * calculateAverage - loop through the global student array and calculate average grade and return that value
  * @returns {number}
+ *
  */
+    function gradeAverage(){
+    var sum=0;
+    var average=0;
+    for(var i=0;i<student_array.length;i++){
+      sum+=parseFloat(student_array[i].grade);
+        average=sum/student_array.length;
+        return average
+       }}
+gradeAverage();
 
 /**
  * updateData - centralized function to update the average and call student list update
@@ -92,4 +128,3 @@ function myCancel(){
 /**
  * Listen for the document to load and reset the data to the initial state
  */
-
