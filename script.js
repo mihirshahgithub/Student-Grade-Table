@@ -40,12 +40,13 @@ $(document).ready(function(){
     //by adding a cancelClicked() into the document.ready, I ensure that it will load after all other events have subsided
     //prevents double adding data upon clicking add button
     cancelClicked();
+
 });
     function addClick(){
     $("#addClicked").click(function(){
         var student_name_input=$("#studentName").val();  //here, I'm setting up to add to the DOM
         $("#studentName").val(student_name_input);      //here, I add #studentName to the DOM
-        var student_course_input=$("#course").val();
+        var student_course_input=$("#course").val();    //I'm having major issues with my first entry, second entry normalizes, all new entries append to the original entry, on 2nd click, they make their own row
         $("#course").val(student_course_input);
         var student_grade_input= $("#studentGrade").val();
         $("#studentGrade").val(student_grade_input);
@@ -55,15 +56,35 @@ $(document).ready(function(){
             course: student_course_input,
             grade: student_grade_input
         };
-        //define student object, append to DOM
-        student_object.name=student_name_input;
-        $("#addTest").append(student_object.name);
-        student_object.course=student_course_input;
-        $("#addCourse").append(student_object.course);
-        student_object.grade=student_grade_input;
-        $("#addStudentGrade").append(student_object.grade);
-       student_array.push(student_object);
+
+        student_array.push(student_object);
         console.log(student_array);
+        //define student object, append to DOM
+        //loop through array; figure out why there are double entries, etc.
+        for(var i=0;i<student_array.length;i++) {
+            var nName = $('<td>', {
+                text: student_array[i].name
+            });
+            var nCourse = $('<td>', {
+                text: student_array[i].course
+            });
+            var nGrade = $('<td>', {
+                text: student_array[i].grade
+            });
+        }
+        var nRow = $('<tr>', {
+            id: "tableBody"
+        });
+        $('#tableBody').prepend(nRow);
+        $(nRow).append(nName, nCourse, nGrade);
+
+        student_object.name=student_name_input;
+        $("#tableBody").append(student_object.name);
+        student_object.course=student_course_input;
+        $("#tableBody").append(student_object.course);
+        student_object.grade=student_grade_input;
+        $("#tableBody").append(student_object.grade);
+
     });
 }
 
@@ -119,11 +140,34 @@ gradeAverage();
  * into the .student_list tbody
  * @param studentObj
  */
-
+//function domCreation(i) {
+  /*  for(var i=0;i<student_array.length;i++) {
+        var nName = $('<td>', {
+            text: student_array[i].name
+        });
+        var nCourse = $('<td>', {
+            text: student_array[i].course
+        });
+        var nGrade = $('<td>', {
+            text: student_array[i].grade
+        });
+    }
+    var nRow = $('<tr>', {
+        id: "tableBody"
+    });
+    $('#tableBody').prepend(nRow);
+    $(nRow).append(nName, nCourse, nGrade);
+} */
+var my_array=[{
+    name:"mihir",
+}]
+console.log(my_array[0]);
 /**
  * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
  */
+function reset(){
 
+}
 
 /**
  * Listen for the document to load and reset the data to the initial state
