@@ -1,4 +1,3 @@
-
 /**
  * Define all global variables here
  */
@@ -96,8 +95,6 @@ function addClick() {
 
     });
 }
-
-
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
@@ -115,15 +112,7 @@ function cancelClicked() {
  *
  * @return undefined
  */
-    var sName = {}
 
-var data = [{
-    name: "chris",
-    course: "algebra",
-    grade: 50
-}]
-
-append(myFunction(x));
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
@@ -146,11 +135,9 @@ function gradeAverage() {
 
     return average;
 
-
 }
 
 $(".avgGrade").text(gradeAverage()); //average not being appended, fix this
-
 
 /**
  * addStudentToDom - take in a student object, create html elements from the values and then append the elements
@@ -158,12 +145,9 @@ $(".avgGrade").text(gradeAverage()); //average not being appended, fix this
  * @param studentObj
  */
 
-
 /**
  * updateData - centralized function to update the average and call student list update
  */
-
-
 function updateData() {
     updateStudentList();
     gradeAverage();
@@ -211,10 +195,9 @@ function updateStudentList() {
         student_grade_average = 0;
         updateData();
         updateStudentList()
-    }
+    };
+    reset();
 }
-reset();
-
 /**
  * Listen for the document to load and reset the data to the initial state
  */
