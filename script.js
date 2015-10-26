@@ -178,6 +178,7 @@ function updateData(){};
 /**
  * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
  */
+//set global variables to 0
 function reset(){
 
 }
