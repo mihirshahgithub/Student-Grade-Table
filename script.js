@@ -40,6 +40,7 @@ $(document).ready(function(){
     //by adding a cancelClicked() into the document.ready, I ensure that it will load after all other events have subsided
     //prevents double adding data upon clicking add button
     cancelClicked();
+    //
 
 });
     function addClick(){
@@ -71,12 +72,18 @@ $(document).ready(function(){
             var nGrade = $('<td>', {
                 text: student_array[i].grade
             });
+
+            var deleteB=$('<button>',{
+               type:"button",
+                class:"btn btn-danger",
+                text:"Delete"
+            });
         }
         var nRow = $('<tr>', {
             id: "tableBody"
         });
         $('#tableBody').prepend(nRow);
-        $(nRow).append(nName, nCourse, nGrade);
+        $(nRow).append(nName, nCourse, nGrade,deleteB);
 
         student_object.name=student_name_input;
         $("#tableBody").append(student_object.name);
@@ -117,24 +124,33 @@ function cancelClicked(){
  * @returns {number}
  *
  */
+//gradeaverage function call calculates correct average of input; however, in the console, the value for sum comes up as undefined. check up on this
     function gradeAverage(){
     var sum=0;
     var average=0;
+
     for(var i=0;i<student_array.length;i++){
-      sum+=parseFloat(student_array[i].grade);
-        average=sum/student_array.length;
-        return average
-       }}
-gradeAverage();
+       sum+=parseInt(student_array[i].grade);
+
+    }
+    average=sum/student_array.length;
+    $('.avgGrade .badge> span').html(average);
+    return average;
+
+
+}
+    gradeAverage();
+
+
 
 /**
  * updateData - centralized function to update the average and call student list update
  */
-
+function updateData(){};
 /**
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
-
+    function updateStudentList(){};
 /**
  * addStudentToDom - take in a student object, create html elements from the values and then append the elements
  * into the .student_list tbody
@@ -158,10 +174,7 @@ gradeAverage();
     $('#tableBody').prepend(nRow);
     $(nRow).append(nName, nCourse, nGrade);
 } */
-var my_array=[{
-    name:"mihir",
-}]
-console.log(my_array[0]);
+
 /**
  * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
  */
