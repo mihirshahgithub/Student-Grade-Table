@@ -142,13 +142,14 @@ function cancelClicked() {
 function gradeAverage() {
     var sum = 0;
     var average = 0;
-
+    var count = 0;
     for (var i = 0; i < student_array.length; i++) {
         if (student_array[i]) {
+            count++;
             sum += parseInt(student_array[i].grade);
         }
     }
-    average = sum / student_array.length;
+    average = sum / count;
     $(".avgGrade").text(Math.round(average));
     return average;
 
