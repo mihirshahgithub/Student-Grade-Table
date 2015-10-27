@@ -41,6 +41,16 @@ $(document).ready(function () {
     //by adding a cancelClicked() into the document.ready, I ensure that it will load after all other events have subsided
     //prevents double adding data upon clicking add button
     cancelClicked();
+    $("body").on("click", ".del-btn", function () {
+        console.log(this);
+        var index = $(this).attr("student_index");
+        console.log(student_array, "student_array before");
+        delete student_array[index];
+        console.log(student_array, "student_array before");
+        $(this).parent().remove();
+
+        gradeAverage();
+    });
     //
 
 });
@@ -65,21 +75,25 @@ function addClick() {
         //define student object, append to DOM
         //loop through array; figure out why there are double entries, etc.
         for (var i = 0; i < student_array.length; i++) {
-            var nName = $('<td>', {
-                text: student_array[i].name
-            });
-            var nCourse = $('<td>', {
-                text: student_array[i].course
-            });
-            var nGrade = $('<td>', {
-                text: student_array[i].grade
-            });
+            if (student_array[i]) {
+                var nName = $('<td>', {
+                    text: student_array[i].name
+                });
 
-            var deleteB = $('<button>', {
-                type: "button",
-                class: "btn btn-danger",
-                text: "Delete"
-            });
+                var nCourse = $('<td>', {
+                    text: student_array[i].course
+                });
+                var nGrade = $('<td>', {
+                    text: student_array[i].grade
+                });
+
+                var deleteB = $('<button>', {
+                    type: "button",
+                    class: "btn btn-danger del-btn",
+                    text: "Delete",
+                    student_index: i
+                });
+            }
         }
         var nRow = $('<tr>', {
             id: "tableBody"
@@ -108,6 +122,7 @@ function cancelClicked() {
     })
 }
 
+
 /**
  * addStudent - creates a student objects based on input fields in the form and adds the object to global student array
  *
@@ -129,15 +144,15 @@ function gradeAverage() {
     var average = 0;
 
     for (var i = 0; i < student_array.length; i++) {
-        sum += parseInt(student_array[i].grade);
-
+        if (student_array[i]) {
+            sum += parseInt(student_array[i].grade);
+        }
     }
     average = sum / student_array.length;
-    $(".avgGrade").text(average);
+    $(".avgGrade").text(Math.round(average));
     return average;
 
 }
-
 
 
 /**
