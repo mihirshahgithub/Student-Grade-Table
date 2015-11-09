@@ -158,33 +158,33 @@ function updateData() {
  */
 
 
-function updateStudentList() {
+function updateStudentList(student_object) {
 
     for (var i = 0; i < student_array.length; i++) {
-        if (student_array[i]) {
+        if (student_object) {
             var nName = $('<td>', {
-                text: student_array[i].name
+                text: student_object.name
             });
 
             var nCourse = $('<td>', {
-                text: student_array[i].course
+                text: student_object.course
             });
             var nGrade = $('<td>', {
-                text: student_array[i].grade
+                text: student_object.grade
             });
 
             var deleteB = $('<button>', {
                 type: "button",
                 class: "btn btn-danger del-btn",
                 text: "Delete",
-                student_index: i
+               // student_index: i
             });
-
+            var nRow = $('<tr>');
+            $(nRow).append(nName, nCourse, nGrade, deleteB);
+            $('#tableBody').append(nRow);
+            // $("#tableBody").empty();
         }
-        var nRow = $('<tr>');
-        $(nRow).append(nName, nCourse, nGrade, deleteB);
-        $('#tableBody').append(nRow);
-        // $("#tableBody").empty();
+
     }
 }
 /**
