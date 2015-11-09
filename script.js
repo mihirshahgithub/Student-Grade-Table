@@ -3,14 +3,6 @@
  */
 //Here, I'm setting up all the possible global variables that could exist, and that could be useful moving forward
 /*unnecessary variables
- var student_name_table;
- var student_course_table;
- var student_grade_table;
- var operations_table;
-
- var delete_button;
- var add_button;
- var cancel_button;
  */
 var student_name_input;
 var student_course_input;
@@ -57,7 +49,7 @@ $(document).ready(function () {
 function addClick() {
     $("#addClicked").click(function () {
         var student_name_input = $("#studentName").val();  //here, I'm setting up to add to the DOM
-        $("#studentName").val(student_name_input);      //here, I add #studentName to the DOM
+        $("#studentName").val(student_name_input);
         var student_course_input = $("#course").val();
         $("#course").val(student_course_input);
         var student_grade_input = $("#studentGrade").val();
