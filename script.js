@@ -87,12 +87,9 @@ function addClick() {
                 });
             }
         }
-        var nRow = $('<tr>', {
-            id: "tableBody"
-        });
-        $('#tableBody').prepend(nRow);
+        var nRow = $('<tr>');
         $(nRow).append(nName, nCourse, nGrade, deleteB);
-
+        $('#tableBody').append(nRow);
         /*student_object.name=student_name_input;
          $("#tableBody").append(student_object.name);
          student_object.course=student_course_input;
@@ -158,7 +155,7 @@ function gradeAverage() {
  * updateData - centralized function to update the average and call student list update
  */
 function updateData() {
-    updateStudentList();
+    //updateStudentList();
     gradeAverage();
 };
 /**
@@ -189,13 +186,12 @@ function updateStudentList() {
             });
 
         }
-        var nRow = $('<tr>', {
-            id: "tableBody"
-        });
-        $('#tableBody').prepend(nRow);
+        var nRow = $('<tr>');
         $(nRow).append(nName, nCourse, nGrade, deleteB);
+        $('#tableBody').append(nRow);
         // $("#tableBody").empty();
     }
+}
     /**
      * addStudentToDom - take in a student object, create html elements from the values and then append the elements
      * into the .student_list tbody
@@ -213,57 +209,46 @@ function updateStudentList() {
         student_grade_input = 0;
         student_grade_average = 0;
         updateData();
-        updateStudentList()
+        //updateStudentList()
     };
     reset();
-}
-/**
- * Listen for the document to load and reset the data to the initial state
- */
-var databaseInfo;
+
+    /**
+     * Listen for the document to load and reset the data to the initial state
+     */
+    var databaseInfo;
 
 
-$(document).ready(function () {
-    $('#populateDb').on('click', function () {
-        $.ajax({
-            dataType: 'json',
-            data: {
-                'api_key': '7cdgnHXVY4'
-            },
-            method: 'Post',
-            url: 'http://s-apis.learningfuze.com/sgt/get',
-            success: function (response) {
-                console.log('AJAX Success function called', response);
-                databaseInfo = response;
-                console.log(response.data[0]);
-                for (var i = 0; i < response.data.length; i++) {
-                    console.log(response.data[i]);
-                    var nName = $('<td>', {
-                        text: response.data[i].name
-                    });
-                    var nCourse = $('<td>', {
-                        text: response.data[i].course
-                    });
-                    var nGrade = $('<td>', {
-                        text: response.data[i].grade
-                    });
+    $(document).ready(function () {
+        $('#populateDb').on('click', function () {
+            $.ajax({
+                dataType: 'json',
+                data: {
+                    'api_key': '7cdgnHXVY4'
+                },
+                method: 'POST',
+                url: 'http://s-apis.learningfuze.com/sgt/get',
+                success: function (response) {
+                    console.log('AJAX Success function called', response);
+                    console.log(response.data[0]);
+                    for (var i = 0; i < response.data.length; i++) {
+                        databaseInfo = response.data[i];
+                        console.log(response.data.length);
+                        console.log(response.data[i]);
+
+                        student_array.push(databaseInfo);
+                        updateStudentList(databaseInfo);
+                        gradeAverage();
+
+
+                    }
+
+
                 }
-                var nRow = $('<tr>', {
-                    id: "tableBody"
-                });
-                var deleteB = $('<button>', {
-                    type: "button",
-                    class: "btn btn-danger del-btn",
-                    text: "Delete",
-                    //student_index: i
-                });
-                $('#tableBody').prepend(nRow);
-                $(nRow).append(nName, nCourse, nGrade, deleteB);
-            }
-
-
-        })
+            });
+        });
     });
-});
+
+
 
 
