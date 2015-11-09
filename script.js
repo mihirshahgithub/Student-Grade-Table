@@ -73,7 +73,7 @@ function addClick() {
         console.log(student_array);
         gradeAverage();
         //define student object, append to DOM
-        //loop through array; figure out why there are double entries, etc.
+        //loop through array
         for (var i = 0; i < student_array.length; i++) {
             if (student_array[i]) {
                 var nName = $('<td>', {
@@ -172,34 +172,44 @@ function updateData() {
 /**
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
-//a bit lost on this function. My dom creation occurred in the addClick function, not its own function
+
+
 function updateStudentList() {
-    for (var list = 0; list < student_array.length; list++) {
-        $("#tableBody").empty();
+
+    for (var i = 0; i < student_array.length; i++) {
+        if (student_array[i]) {
+            var nName = $('<td>', {
+                text: student_array[i].name
+            });
+
+            var nCourse = $('<td>', {
+                text: student_array[i].course
+            });
+            var nGrade = $('<td>', {
+                text: student_array[i].grade
+            });
+
+            var deleteB = $('<button>', {
+                type: "button",
+                class: "btn btn-danger del-btn",
+                text: "Delete",
+                student_index: i
+            });
+
+        }
+        var nRow = $('<tr>', {
+            id: "tableBody"
+        });
+        $('#tableBody').prepend(nRow);
+        $(nRow).append(nName, nCourse, nGrade, deleteB);
+        // $("#tableBody").empty();
     }
     /**
      * addStudentToDom - take in a student object, create html elements from the values and then append the elements
      * into the .student_list tbody
      * @param studentObj
      */
-//function domCreation(i) {
-    /*  for(var i=0;i<student_array.length;i++) {
-     var nName = $('<td>', {
-     text: student_array[i].name
-     });
-     var nCourse = $('<td>', {
-     text: student_array[i].course
-     });
-     var nGrade = $('<td>', {
-     text: student_array[i].grade
-     });
-     }
-     var nRow = $('<tr>', {
-     id: "tableBody"
-     });
-     $('#tableBody').prepend(nRow);
-     $(nRow).append(nName, nCourse, nGrade);
-     } */
+
 
     /**
      * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
@@ -218,3 +228,50 @@ function updateStudentList() {
 /**
  * Listen for the document to load and reset the data to the initial state
  */
+var databaseInfo;
+
+
+$(document).ready(function () {
+    $('#populateDb').on('click', function () {
+        $.ajax({
+            dataType: 'json',
+            data: {
+                'api_key': '7cdgnHXVY4'
+            },
+            method: 'Post',
+            url: 'http://s-apis.learningfuze.com/sgt/get',
+            success: function (response) {
+                console.log('AJAX Success function called', response);
+                databaseInfo = response;
+                console.log(response.data[0]);
+                for (var i = 0; i < response.data.length; i++) {
+                    console.log(response.data[i]);
+                    var nName = $('<td>', {
+                        text: response.data[i].name
+                    });
+                    var nCourse = $('<td>', {
+                        text: response.data[i].course
+                    });
+                    var nGrade = $('<td>', {
+                        text: response.data[i].grade
+                    });
+                }
+                var nRow = $('<tr>', {
+                    id: "tableBody"
+                });
+                var deleteB = $('<button>', {
+                    type: "button",
+                    class: "btn btn-danger del-btn",
+                    text: "Delete",
+                    //student_index: i
+                });
+                $('#tableBody').prepend(nRow);
+                $(nRow).append(nName, nCourse, nGrade, deleteB);
+            }
+
+
+        })
+    });
+});
+
+
