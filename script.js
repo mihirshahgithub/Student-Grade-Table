@@ -30,6 +30,7 @@ var student_array = [];
  */
 //Here, we are going to use a function called addClick to handle all events when the add button is clicked
 $(document).ready(function () {
+    sgtOnClick();
     addClick();
     //by adding a cancelClicked() into the document.ready, I ensure that it will load after all other events have subsided
     //prevents double adding data upon clicking add button
@@ -159,8 +160,6 @@ function updateData() {
 
 
 function updateStudentList(student_object) {
-
-    for (var i = 0; i < student_array.length; i++) {
         if (student_object) {
             var nName = $('<td>', {
                 text: student_object.name
@@ -180,12 +179,10 @@ function updateStudentList(student_object) {
                // student_index: i
             });
             var nRow = $('<tr>');
-            $(nRow).append(nName, nCourse, nGrade, deleteB);
-            $('#tableBody').append(nRow);
+           // $(nRow).append(nName, nCourse, nGrade, deleteB);
+            $('#tableBody').append(nRow,nName,nCourse,nGrade,deleteB);
             // $("#tableBody").empty();
         }
-
-    }
 }
 /**
  * addStudentToDom - take in a student object, create html elements from the values and then append the elements
@@ -213,7 +210,7 @@ reset();
  */
 
 
-$(document).ready(function () {
+function sgtOnClick() {
     $('#populateDb').on('click', function () {
         $.ajax({
             dataType: 'json',
@@ -229,7 +226,6 @@ $(document).ready(function () {
                     databaseInfo = response.data[i];
                     console.log(response.data.length);
                     console.log(response.data[i]);
-
                     student_array.push(databaseInfo);
                     updateStudentList(databaseInfo);
                     gradeAverage();
@@ -241,7 +237,8 @@ $(document).ready(function () {
             }
         });
     });
-});
+}
+
 
 
 
