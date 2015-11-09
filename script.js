@@ -32,8 +32,6 @@ var student_array = [];
 $(document).ready(function () {
     sgtOnClick();
     addClick();
-    //by adding a cancelClicked() into the document.ready, I ensure that it will load after all other events have subsided
-    //prevents double adding data upon clicking add button
     cancelClicked();
     $("body").on("click", ".del-btn", function () {
         console.log(this);
@@ -49,6 +47,22 @@ $(document).ready(function () {
 
 });
 function addClick() {
+    $.ajax({
+        dataType: 'json',
+        url: 'http://s-apis.learningfuze.com/sgt/create',
+        data: {
+            'api_key': '7cdgnHXVY4',
+            'name': 'Mihir',
+            'course': 'Lakeshow',
+            'grade': parseInt('100')
+        },
+        method: 'POST',
+        success: function(response) {
+
+            console.log('AJAX was successful', response);
+        }
+
+    });
     $("#addClicked").click(function () {
         var student_name_input = $("#studentName").val();  //here, I'm setting up to add to the DOM
         $("#studentName").val(student_name_input);
@@ -62,9 +76,9 @@ function addClick() {
             course: student_course_input,
             grade: student_grade_input
         };
-
+        console.log('student object is' + student_object);
         student_array.push(student_object);
-        console.log(student_array);
+        //console.log(student_array);
         gradeAverage();
         //define student object, append to DOM
         //loop through array
@@ -94,6 +108,7 @@ function addClick() {
         $('#tableBody').append(nRow);
 
     });
+
 }
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
@@ -160,29 +175,33 @@ function updateData() {
 
 
 function updateStudentList(student_object) {
-        if (student_object) {
-            var nName = $('<td>', {
-                text: student_object.name
-            });
+    if (student_object) {
+        var id = $('<td>', {
+            text: student_object.id
+        });
+        var nName = $('<td>', {
+            text: student_object.name
+        });
 
-            var nCourse = $('<td>', {
-                text: student_object.course
-            });
-            var nGrade = $('<td>', {
-                text: student_object.grade
-            });
+        var nCourse = $('<td>', {
+            text: student_object.course
+        });
+        var nGrade = $('<td>', {
+            text: student_object.grade
+        });
 
-            var deleteB = $('<button>', {
-                type: "button",
-                class: "btn btn-danger del-btn",
-                text: "Delete",
-               // student_index: i
-            });
-            var nRow = $('<tr>');
-           // $(nRow).append(nName, nCourse, nGrade, deleteB);
-            $('#tableBody').append(nRow,nName,nCourse,nGrade,deleteB);
-            // $("#tableBody").empty();
-        }
+        var deleteB = $('<button>', {
+            type: "button",
+            class: "btn btn-danger del-btn",
+            text: "Delete",
+            // student_index: i
+        });
+        var nRow = $('<tr>');
+        // $(nRow).append(nName, nCourse, nGrade, deleteB);
+        $(nRow).append(id, nName, nCourse, nGrade, deleteB);
+        $('#tableBody').append(nRow)
+        // $("#tableBody").empty();
+    }
 }
 /**
  * addStudentToDom - take in a student object, create html elements from the values and then append the elements
@@ -211,35 +230,45 @@ reset();
 
 
 function sgtOnClick() {
-    $('#populateDb').on('click', function () {
-        $.ajax({
-            dataType: 'json',
-            data: {
-                'api_key': '7cdgnHXVY4'
-            },
-            method: 'POST',
-            url: 'http://s-apis.learningfuze.com/sgt/get',
-            success: function (response) {
-                console.log('AJAX Success function called', response);
-                console.log(response.data[0]);
-                for (var i = 0; i < response.data.length; i++) {
-                    databaseInfo = response.data[i];
-                    console.log(response.data.length);
-                    console.log(response.data[i]);
-                    student_array.push(databaseInfo);
-                    updateStudentList(databaseInfo);
-                    gradeAverage();
-
-
-                }
+    $.ajax({
+        dataType: 'json',
+        data: {
+            'api_key': '7cdgnHXVY4'
+        },
+        method: 'POST',
+        url: 'http://s-apis.learningfuze.com/sgt/get',
+        success: function (response) {
+            //console.log('AJAX Success function called', response);
+            //console.log(response.data[0]);
+            for (var i = 0; i < response.data.length; i++) {
+                databaseInfo = response.data[i];
+                //console.log(response.data.length);
+                //console.log(response.data[i]);
+                student_array.push(databaseInfo);
+                updateStudentList(databaseInfo);
+                gradeAverage();
 
 
             }
-        });
+
+
+        }
+
     });
 }
 
+/*
+ function deleteDatabase() {
+ $("body").on("click", ".del-btn", function () {
+ console.log(this);
+ var index = $(this).attr("student_index");
+ console.log(student_array, "student_array before");
+ delete student_array[index];
+ console.log(student_array, "student_array before");
+ $(this).parent().remove();
+ sgtOnClick();
 
-
-
+ });
+ }
+ */
 
