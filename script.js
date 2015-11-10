@@ -40,29 +40,15 @@ $(document).ready(function () {
         delete student_array[index];
         console.log(student_array, "student_array before");
         $(this).parent().remove();
-
+        deleteFromDatabase();
         gradeAverage();
     });
     //
 
 });
-function addClick() {
-    $.ajax({
-        dataType: 'json',
-        url: 'http://s-apis.learningfuze.com/sgt/create',
-        data: {
-            'api_key': '7cdgnHXVY4',
-            'name': 'Mihir',
-            'course': 'Lakeshow',
-            'grade': parseInt('100')
-        },
-        method: 'POST',
-        success: function(response) {
-
-            console.log('AJAX was successful', response);
-        }
-
-    });
+function addClick(student_object) {
+    //api key: string for api access
+    //student object that contains all of this students data
     $("#addClicked").click(function () {
         var student_name_input = $("#studentName").val();  //here, I'm setting up to add to the DOM
         $("#studentName").val(student_name_input);
@@ -107,7 +93,25 @@ function addClick() {
         $(nRow).append(nName, nCourse, nGrade, deleteB);
         $('#tableBody').append(nRow);
 
+        $.ajax({
+            dataType: 'json',
+            url: 'http://s-apis.learningfuze.com/sgt/create',
+            data: {
+                'api_key': '7cdgnHXVY4',
+                'name': student_object.name,
+                'course': student_object.course,
+                'grade': student_object.grade
+            },
+            method: 'POST',
+            success: function(response) {
+
+                console.log('AJAX was successful', response);
+            }
+
+        });
+
     });
+
 
 }
 /**
@@ -271,4 +275,23 @@ function sgtOnClick() {
  });
  }
  */
+    function deleteFromDatabase(id) {
 
+        $.ajax({
+            dataType: 'json',
+            data: {
+                'api_key': '7cdgnHXVY4',
+                'student_id': id
+            },
+            method: 'POST',
+            url: 'http://s-apis.learningfuze.com/sgt/delete',
+            success: function (response) {
+                console.log('AJAX Success function called', response);
+
+
+            }
+
+
+        })
+
+    }
