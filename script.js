@@ -1,21 +1,12 @@
 /**
  * Define all global variables here
  */
-//Here, I'm setting up all the possible global variables that could exist, and that could be useful moving forward
-/*unnecessary variables
- var student_name_table;
- var student_course_table;
- var student_grade_table;
- var operations_table;
-
- var delete_button;
- var add_button;
- var cancel_button;
- */
 var student_name_input;
 var student_course_input;
 var student_grade_input;
 var student_grade_average;
+var databaseInfo;
+var deleteData;
 /**
  * student_array - global array to hold student objects
  * @type {Array}
@@ -35,11 +26,15 @@ var student_array = [];
 /**
  * addClicked - Event Handler when user clicks the add button
  */
-//Here, we are going to use a function called addClick to handle all events when the add button is clicked
+//Here, we are going to use a function called addClick to handle all events when the add button is clicked, and sent to the remote server
+//in the document.ready, I'm calling the sgtOnClick() to load database
+//addClick() call will load added entries after the page has loaded
+//cancelClicked will wipe out any strings/data in the form input
+//delete from database has the server delete the particular index from the student array and from the server itself
+
 $(document).ready(function () {
+    sgtOnClick();
     addClick();
-    //by adding a cancelClicked() into the document.ready, I ensure that it will load after all other events have subsided
-    //prevents double adding data upon clicking add button
     cancelClicked();
     $("body").on("click", ".del-btn", function () {
         console.log(this);
@@ -48,16 +43,19 @@ $(document).ready(function () {
         delete student_array[index];
         console.log(student_array, "student_array before");
         $(this).parent().remove();
-
+        deleteFromDatabase(index);
         gradeAverage();
     });
     //
 
 });
-function addClick() {
+function addClick(student_object) {
+    //api key: string for api access
+    //student object that contains all of this students data
+    //addClick both adds student to remote server, and functions as dom creation
     $("#addClicked").click(function () {
         var student_name_input = $("#studentName").val();  //here, I'm setting up to add to the DOM
-        $("#studentName").val(student_name_input);      //here, I add #studentName to the DOM
+        $("#studentName").val(student_name_input);
         var student_course_input = $("#course").val();
         $("#course").val(student_course_input);
         var student_grade_input = $("#studentGrade").val();
@@ -66,14 +64,15 @@ function addClick() {
         var student_object = {
             name: student_name_input,
             course: student_course_input,
-            grade: student_grade_input
-        };
+            grade: student_grade_input,
 
+        };
+        console.log('student object is' + student_object);
         student_array.push(student_object);
-        console.log(student_array);
+        //console.log(student_array);
         gradeAverage();
         //define student object, append to DOM
-        //loop through array; figure out why there are double entries, etc.
+        //loop through array
         for (var i = 0; i < student_array.length; i++) {
             if (student_array[i]) {
                 var nName = $('<td>', {
@@ -95,25 +94,35 @@ function addClick() {
                 });
             }
         }
-        var nRow = $('<tr>', {
-            id: "tableBody"
-        });
-        $('#tableBody').prepend(nRow);
+        var nRow = $('<tr>');
         $(nRow).append(nName, nCourse, nGrade, deleteB);
+        $('#tableBody').append(nRow);
 
-        /*student_object.name=student_name_input;
-         $("#tableBody").append(student_object.name);
-         student_object.course=student_course_input;
-         $("#tableBody").append(student_object.course);
-         student_object.grade=student_grade_input;
-         $("#tableBody").append(student_object.grade);*/
+        $.ajax({
+            dataType: 'json',
+            url: 'http://s-apis.learningfuze.com/sgt/create',
+            data: {
+                'api_key': '7cdgnHXVY4',
+                'name': student_object.name,
+                'course': student_object.course,
+                'grade': student_object.grade
+            },
+            method: 'POST',
+            success: function(response) {
+
+                console.log('AJAX was successful', response);
+            }
+
+        });
 
     });
+
+
 }
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
-//this will clear out the AddStudentForm  (now we have to figure out a way to add new rows of data, likely using a for loop)
+//this will clear out the AddStudentForm
 function cancelClicked() {
     $("#clickCancel").click(function () {
         $("#studentName").val('');
@@ -166,55 +175,116 @@ function gradeAverage() {
  * updateData - centralized function to update the average and call student list update
  */
 function updateData() {
-    updateStudentList();
+    //updateStudentList();
     gradeAverage();
-};
+}
 /**
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
-//a bit lost on this function. My dom creation occurred in the addClick function, not its own function
-function updateStudentList() {
-    for (var list = 0; list < student_array.length; list++) {
-        $("#tableBody").empty();
-    }
-    /**
-     * addStudentToDom - take in a student object, create html elements from the values and then append the elements
-     * into the .student_list tbody
-     * @param studentObj
-     */
-//function domCreation(i) {
-    /*  for(var i=0;i<student_array.length;i++) {
-     var nName = $('<td>', {
-     text: student_array[i].name
-     });
-     var nCourse = $('<td>', {
-     text: student_array[i].course
-     });
-     var nGrade = $('<td>', {
-     text: student_array[i].grade
-     });
-     }
-     var nRow = $('<tr>', {
-     id: "tableBody"
-     });
-     $('#tableBody').prepend(nRow);
-     $(nRow).append(nName, nCourse, nGrade);
-     } */
 
-    /**
-     * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
-     */
-//set global variables to 0
-    function reset() {
-        student_name_input = 0;
-        student_course_input = 0;
-        student_grade_input = 0;
-        student_grade_average = 0;
-        updateData();
-        updateStudentList()
-    };
-    reset();
+//updateStudentList takes the student_object parameter and appends new rows. this function is called in sgtOnClick to get the database on click of the add button
+function updateStudentList(student_object) {
+    if (student_object) {
+        var id = $('<td>', {
+            text: student_object.id
+        });
+        var nName = $('<td>', {
+            text: student_object.name
+        });
+
+        var nCourse = $('<td>', {
+            text: student_object.course
+        });
+        var nGrade = $('<td>', {
+            text: student_object.grade
+        });
+
+        var deleteB = $('<button>', {
+            type: "button",
+            class: "btn btn-danger del-btn",
+            text: "Delete",
+            student_index: student_object.id
+        });
+        var nRow = $('<tr>');
+        // $(nRow).append(nName, nCourse, nGrade, deleteB);
+        $(nRow).append(id, nName, nCourse, nGrade, deleteB);
+        $('#tableBody').append(nRow);
+        // $("#tableBody").empty();
+    }
 }
+/**
+ * addStudentToDom - take in a student object, create html elements from the values and then append the elements
+ * into the .student_list tbody
+ * @param studentObj
+ */
+
+
+/**
+ * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
+ */
+//set global variables to 0
+function reset() {
+    student_name_input = 0;
+    student_course_input = 0;
+    student_grade_input = 0;
+    student_grade_average = 0;
+    updateData();
+
+}
+reset();
+
 /**
  * Listen for the document to load and reset the data to the initial state
  */
+
+//pulls LF database onto SGT
+function sgtOnClick() {
+    $.ajax({
+        dataType: 'json',
+        data: {
+            'api_key': '7cdgnHXVY4'
+        },
+        method: 'POST',
+        url: 'http://s-apis.learningfuze.com/sgt/get',
+        success: function (response) {
+            //console.log('AJAX Success function called', response);
+            //console.log(response.data[0]);
+            for (var i = 0; i < response.data.length; i++) {
+                databaseInfo = response.data[i];
+                //console.log(response.data.length);
+                //console.log(response.data[i]);
+                student_array.push(databaseInfo);
+                updateStudentList(databaseInfo);
+                gradeAverage();
+
+
+            }
+
+
+        }
+
+    });
+}
+//takes parameter: index and deletes from database using ID property
+    function deleteFromDatabase(index) {
+        console.log("delete :", index);
+        $.ajax({
+            dataType: 'json',
+            data: {
+                'api_key': '7cdgnHXVY4',
+                'student_id': index
+            },
+            method: 'POST',
+            url: 'http://s-apis.learningfuze.com/sgt/delete',
+            success: function (response) {
+                console.log('AJAX Success function called', response);
+                if(response.success){
+                    deleteData=true;
+                }
+
+            }
+
+
+        })
+
+    }
