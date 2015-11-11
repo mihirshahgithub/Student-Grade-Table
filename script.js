@@ -9,6 +9,7 @@ var student_course_input;
 var student_grade_input;
 var student_grade_average;
 var databaseInfo;
+var deleteData;
 /**
  * student_array - global array to hold student objects
  * @type {Array}
@@ -203,7 +204,7 @@ function updateStudentList(student_object) {
         var nRow = $('<tr>');
         // $(nRow).append(nName, nCourse, nGrade, deleteB);
         $(nRow).append(id, nName, nCourse, nGrade, deleteB);
-        $('#tableBody').append(nRow)
+        $('#tableBody').append(nRow);
         // $("#tableBody").empty();
     }
 }
@@ -287,7 +288,9 @@ function sgtOnClick() {
             url: 'http://s-apis.learningfuze.com/sgt/delete',
             success: function (response) {
                 console.log('AJAX Success function called', response);
-
+                if(response.success){
+                    deleteData=true;
+                }
 
             }
 
