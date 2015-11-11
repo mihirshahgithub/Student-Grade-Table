@@ -41,7 +41,7 @@ $(document).ready(function () {
         delete student_array[index];
         console.log(student_array, "student_array before");
         $(this).parent().remove();
-        deleteFromDatabase();
+        deleteFromDatabase(index);
         gradeAverage();
     });
     //
@@ -61,7 +61,8 @@ function addClick(student_object) {
         var student_object = {
             name: student_name_input,
             course: student_course_input,
-            grade: student_grade_input
+            grade: student_grade_input,
+
         };
         console.log('student object is' + student_object);
         student_array.push(student_object);
@@ -199,7 +200,7 @@ function updateStudentList(student_object) {
             type: "button",
             class: "btn btn-danger del-btn",
             text: "Delete",
-            // student_index: i
+            student_index: student_object.id
         });
         var nRow = $('<tr>');
         // $(nRow).append(nName, nCourse, nGrade, deleteB);
@@ -261,28 +262,13 @@ function sgtOnClick() {
 
     });
 }
-
-/*
- function deleteDatabase() {
- $("body").on("click", ".del-btn", function () {
- console.log(this);
- var index = $(this).attr("student_index");
- console.log(student_array, "student_array before");
- delete student_array[index];
- console.log(student_array, "student_array before");
- $(this).parent().remove();
- sgtOnClick();
-
- });
- }
- */
-    function deleteFromDatabase(id) {
-
+    function deleteFromDatabase(index) {
+        console.log("delete :", index);
         $.ajax({
             dataType: 'json',
             data: {
                 'api_key': '7cdgnHXVY4',
-                'student_id': id
+                'student_id': index
             },
             method: 'POST',
             url: 'http://s-apis.learningfuze.com/sgt/delete',
