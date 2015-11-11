@@ -1,9 +1,6 @@
 /**
  * Define all global variables here
  */
-//Here, I'm setting up all the possible global variables that could exist, and that could be useful moving forward
-/*unnecessary variables
- */
 var student_name_input;
 var student_course_input;
 var student_grade_input;
@@ -29,7 +26,12 @@ var student_array = [];
 /**
  * addClicked - Event Handler when user clicks the add button
  */
-//Here, we are going to use a function called addClick to handle all events when the add button is clicked
+//Here, we are going to use a function called addClick to handle all events when the add button is clicked, and sent to the remote server
+//in the document.ready, I'm calling the sgtOnClick() to load database
+//addClick() call will load added entries after the page has loaded
+//cancelClicked will wipe out any strings/data in the form input
+//delete from database has the server delete the particular index from the student array and from the server itself
+
 $(document).ready(function () {
     sgtOnClick();
     addClick();
@@ -50,6 +52,7 @@ $(document).ready(function () {
 function addClick(student_object) {
     //api key: string for api access
     //student object that contains all of this students data
+    //addClick both adds student to remote server, and functions as dom creation
     $("#addClicked").click(function () {
         var student_name_input = $("#studentName").val();  //here, I'm setting up to add to the DOM
         $("#studentName").val(student_name_input);
@@ -119,7 +122,7 @@ function addClick(student_object) {
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
-//this will clear out the AddStudentForm  (now we have to figure out a way to add new rows of data, likely using a for loop)
+//this will clear out the AddStudentForm
 function cancelClicked() {
     $("#clickCancel").click(function () {
         $("#studentName").val('');
@@ -174,12 +177,12 @@ function gradeAverage() {
 function updateData() {
     //updateStudentList();
     gradeAverage();
-};
+}
 /**
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
 
-
+//updateStudentList takes the student_object parameter and appends new rows. this function is called in sgtOnClick to get the database on click of the add button
 function updateStudentList(student_object) {
     if (student_object) {
         var id = $('<td>', {
@@ -226,15 +229,15 @@ function reset() {
     student_grade_input = 0;
     student_grade_average = 0;
     updateData();
-    //updateStudentList()
-};
+
+}
 reset();
 
 /**
  * Listen for the document to load and reset the data to the initial state
  */
 
-
+//pulls LF database onto SGT
 function sgtOnClick() {
     $.ajax({
         dataType: 'json',
@@ -262,6 +265,7 @@ function sgtOnClick() {
 
     });
 }
+//takes parameter: index and deletes from database using ID property
     function deleteFromDatabase(index) {
         console.log("delete :", index);
         $.ajax({
