@@ -108,7 +108,7 @@ function addClick(student_object) {
                 'grade': student_object.grade
             },
             method: 'POST',
-            success: function(response) {
+            success: function (response) {
 
                 console.log('AJAX was successful', response);
             }
@@ -266,25 +266,48 @@ function sgtOnClick() {
     });
 }
 //takes parameter: index and deletes from database using ID property
-    function deleteFromDatabase(index) {
-        console.log("delete :", index);
-        $.ajax({
-            dataType: 'json',
-            data: {
-                'api_key': '7cdgnHXVY4',
-                'student_id': index
-            },
-            method: 'POST',
-            url: 'http://s-apis.learningfuze.com/sgt/delete',
-            success: function (response) {
-                console.log('AJAX Success function called', response);
-                if(response.success){
-                    deleteData=true;
-                }
-
+function deleteFromDatabase(index) {
+    console.log("delete :", index);
+    $.ajax({
+        dataType: 'json',
+        data: {
+            'api_key': '7cdgnHXVY4',
+            'student_id': index
+        },
+        method: 'POST',
+        url: 'http://s-apis.learningfuze.com/sgt/delete',
+        success: function (response) {
+            console.log('AJAX Success function called', response);
+            if (response.success) {
+                deleteData = true;
             }
 
+        }
 
-        })
 
-    }
+    })
+
+}
+/*
+function errorChecking(){
+    $.ajax({
+      dataType: 'json',
+        data:{
+            'api_key': '7cdgnHXVY4',
+            'server':,
+            'request:',
+            'timeout:',
+        },
+        method: 'POST',
+        url: 'http://s-apis.learningfuze.com/sgt/delete',
+        success: function(response){
+            console.log('AJAX success function called', response);
+            if(response.success){
+              console.log(response.success);
+            } else {
+                error: response
+            }
+        }
+    });
+}
+*/
