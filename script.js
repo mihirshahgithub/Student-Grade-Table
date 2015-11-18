@@ -184,6 +184,7 @@ function updateData() {
 
 //updateStudentList takes the student_object parameter and appends new rows. this function is called in sgtOnClick to get the database on click of the add button
 function updateStudentList(student_object) {
+    console.log("update studnet list called");
     if (student_object) {
         var id = $('<td>', {
             text: student_object.id
@@ -311,3 +312,63 @@ function errorChecking(){
     });
 }
 */
+
+function sort_by_grade(){
+    console.log('sort_by_grade func called');
+    $("tbody").empty();
+    var grade_arr = student_array;
+    grade_arr.sort(function(a, b){
+        if(a.grade < b.grade) return -1;
+        if(a.grade > b.grade) return 1;
+        return 0;
+    });
+    console.log('grade_arr is now: ', grade_arr);
+    for(var i=0;i<grade_arr.length;i++){
+        updateStudentList(grade_arr[i]);
+    }
+}
+
+function sort_by_grade(){
+    console.log('sort_by_grade func called');
+    $("tbody").empty();
+    var grade_arr = student_array;
+    grade_arr.sort(function(a, b){
+        if(a.grade < b.grade) return -1;
+        if(a.grade > b.grade) return 1;
+        return 0;
+    });
+    console.log('grade_arr is now: ', grade_arr);
+    for(var i=0;i<grade_arr.length;i++){
+        updateStudentList(grade_arr[i]);
+    }
+}
+
+function sort_by_name(){
+    console.log('sort_by_grade func called');
+    $("tbody").empty();
+    var name_arr = student_array;
+    name_arr.sort(function(a, b){
+        if(a.name < b.name) return -1;
+        if(a.name > b.name) return 1;
+        return 0;
+    });
+    console.log('name_arr is now: ', name_arr);
+    for(var i=0;i<name_arr.length;i++){
+        updateStudentList(name_arr[i]);
+    }
+}
+
+function sort_by_course(){
+    console.log('sort_by_grade func called');
+    $("tbody").empty();
+    var course_arr = student_array;
+    course_arr.sort(function(a, b){
+        if(a.course < b.course) return -1;
+        if(a.course > b.course) return 1;
+        return 0;
+    });
+    console.log('course_arr is now: ', course_arr);
+    for(var i=0;i<course_arr.length;i++){
+        updateStudentList(course_arr[i]);
+    }
+}
