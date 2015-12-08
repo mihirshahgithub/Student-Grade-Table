@@ -67,50 +67,57 @@ function addClick(student_object) {
             grade: student_grade_input,
 
         };
-        console.log('student object is' + student_object);
+        console.log('student object is', student_object);
         student_array.push(student_object);
         //console.log(student_array);
         gradeAverage();
         //define student object, append to DOM
         //loop through array
-        for (var i = 0; i < student_array.length; i++) {
-            if (student_array[i]) {
-                var nName = $('<td>', {
-                    text: student_array[i].name
-                });
-
-                var nCourse = $('<td>', {
-                    text: student_array[i].course
-                });
-                var nGrade = $('<td>', {
-                    text: student_array[i].grade
-                });
-
-                var deleteB = $('<button>', {
-                    type: "button",
-                    class: "btn btn-danger del-btn",
-                    text: "Delete",
-                    student_index: i
-                });
-            }
-        }
-        var nRow = $('<tr>');
-        $(nRow).append(nName, nCourse, nGrade, deleteB);
-        $('#tableBody').append(nRow);
+        //for (var i = 0; i < student_array.length; i++) {
+        //    if (student_array[i]) {
+        //        var nName = $('<td>', {
+        //            text: student_array[i].name
+        //        });
+        //
+        //        var nCourse = $('<td>', {
+        //            text: student_array[i].course
+        //        });
+        //        var nGrade = $('<td>', {
+        //            text: student_array[i].grade
+        //        });
+        //
+        //        var deleteB = $('<button>', {
+        //            type: "button",
+        //            class: "btn btn-danger del-btn",
+        //            text: "Delete",
+        //            student_index: i
+        //        });
+        //    }
+        //}
+        //var nRow = $('<tr>');
+        //$(nRow).append(nName, nCourse, nGrade, deleteB);
+        //$('#tableBody').append(nRow);
 
         $.ajax({
             dataType: 'json',
-            url: 'http://s-apis.learningfuze.com/sgt/create',
+            url: 'create.php',
             data: {
-                'api_key': '7cdgnHXVY4',
                 'name': student_object.name,
                 'course': student_object.course,
                 'grade': student_object.grade
             },
+            cache: false,
             method: 'POST',
             success: function (response) {
-
-                console.log('AJAX was successful', response);
+                if(response.success) {
+                    sgtOnClick();
+                    console.log('AJAX was successful', response);
+                }else{
+                    console.error('Add failed');
+                }
+            },
+            error: function(){
+                console.error("Oh NO!, it failed");
             }
 
         });
@@ -185,19 +192,21 @@ function updateData() {
 //updateStudentList takes the student_object parameter and appends new rows. this function is called in sgtOnClick to get the database on click of the add button
 function updateStudentList(student_object) {
     console.log("update studnet list called");
+    console.log(typeof student_object);
+    console.log(student_object);
     if (student_object) {
         var id = $('<td>', {
-            text: student_object.id
+            text: student_object.ID
         });
         var nName = $('<td>', {
-            text: student_object.name
+            text: student_object.Name
         });
 
         var nCourse = $('<td>', {
-            text: student_object.course
+            text: student_object.Course
         });
         var nGrade = $('<td>', {
-            text: student_object.grade
+            text: student_object.Grade
         });
 
         var deleteB = $('<button>', {
@@ -242,16 +251,18 @@ reset();
 function sgtOnClick() {
     $.ajax({
         dataType: 'json',
-        data: {
-            'api_key': '7cdgnHXVY4'
-        },
-        method: 'POST',
-        url: 'http://s-apis.learningfuze.com/sgt/get',
+        //data: {
+        //    //'api_key': '7cdgnHXVY4'
+        //},
+        method: 'GET',
+        //url: 'http://s-apis.learningfuze.com/sgt/get',
+        url: 'populate.php',
         success: function (response) {
+            console.log('ths is my result:', response);
             //console.log('AJAX Success function called', response);
             //console.log(response.data[0]);
-            for (var i = 0; i < response.data.length; i++) {
-                databaseInfo = response.data[i];
+            for (var i = 0; i < response.length; i++) {
+                databaseInfo = response[i];
                 //console.log(response.data.length);
                 //console.log(response.data[i]);
                 student_array.push(databaseInfo);
@@ -266,6 +277,7 @@ function sgtOnClick() {
 
     });
 }
+
 //takes parameter: index and deletes from database using ID property
 function deleteFromDatabase(index) {
     console.log("delete :", index);
@@ -313,62 +325,63 @@ function errorChecking(){
 }
 */
 
-function sort_by_grade(){
-    console.log('sort_by_grade func called');
-    $("tbody").empty();
-    var grade_arr = student_array;
-    grade_arr.sort(function(a, b){
-        if(a.grade < b.grade) return -1;
-        if(a.grade > b.grade) return 1;
-        return 0;
-    });
-    console.log('grade_arr is now: ', grade_arr);
-    for(var i=0;i<grade_arr.length;i++){
-        updateStudentList(grade_arr[i]);
-    }
-}
+//function sort_by_grade() {
+//    console.log('sort_by_grade func called');
+//    $("tbody").empty();
+//    var grade_arr = student_array;
+//    grade_arr.sort(function (a, b) {
+//        if (a.grade < b.grade) return -1;
+//        if (a.grade > b.grade) return 1;
+//        return 0;
+//    });
+//    console.log('grade_arr is now: ', grade_arr);
+//    for (var i = 0; i < grade_arr.length; i++) {
+//        updateStudentList(grade_arr[i]);
+//    }
+//}
 
-function sort_by_grade(){
-    console.log('sort_by_grade func called');
-    $("tbody").empty();
-    var grade_arr = student_array;
-    grade_arr.sort(function(a, b){
-        if(a.grade < b.grade) return -1;
-        if(a.grade > b.grade) return 1;
-        return 0;
-    });
-    console.log('grade_arr is now: ', grade_arr);
-    for(var i=0;i<grade_arr.length;i++){
-        updateStudentList(grade_arr[i]);
-    }
-}
 
-function sort_by_name(){
-    console.log('sort_by_grade func called');
-    $("tbody").empty();
-    var name_arr = student_array;
-    name_arr.sort(function(a, b){
-        if(a.name < b.name) return -1;
-        if(a.name > b.name) return 1;
-        return 0;
-    });
-    console.log('name_arr is now: ', name_arr);
-    for(var i=0;i<name_arr.length;i++){
-        updateStudentList(name_arr[i]);
-    }
-}
-
-function sort_by_course(){
-    console.log('sort_by_grade func called');
-    $("tbody").empty();
-    var course_arr = student_array;
-    course_arr.sort(function(a, b){
-        if(a.course < b.course) return -1;
-        if(a.course > b.course) return 1;
-        return 0;
-    });
-    console.log('course_arr is now: ', course_arr);
-    for(var i=0;i<course_arr.length;i++){
-        updateStudentList(course_arr[i]);
-    }
-}
+//function sort_by_grade(){
+//    console.log('sort_by_grade func called');
+//    $("tbody").empty();
+//    var grade_arr = student_array;
+//    grade_arr.sort(function(a, b){
+//        if(a.grade < b.grade) return -1;
+//        if(a.grade > b.grade) return 1;
+//        return 0;
+//    });
+//    console.log('grade_arr is now: ', grade_arr);
+//    for(var i=0;i<grade_arr.length;i++){
+//        updateStudentList(grade_arr[i]);
+//    }
+//}
+//
+//function sort_by_name(){
+//    console.log('sort_by_grade func called');
+//    $("tbody").empty();
+//    var name_arr = student_array;
+//    name_arr.sort(function(a, b){
+//        if(a.name < b.name) return -1;
+//        if(a.name > b.name) return 1;
+//        return 0;
+//    });
+//    console.log('name_arr is now: ', name_arr);
+//    for(var i=0;i<name_arr.length;i++){
+//        updateStudentList(name_arr[i]);
+//    }
+//}
+//
+//function sort_by_course(){
+//    console.log('sort_by_grade func called');
+//    $("tbody").empty();
+//    var course_arr = student_array;
+//    course_arr.sort(function(a, b){
+//        if(a.course < b.course) return -1;
+//        if(a.course > b.course) return 1;
+//        return 0;
+//    });
+//    console.log('course_arr is now: ', course_arr);
+//    for(var i=0;i<course_arr.length;i++){
+//        updateStudentList(course_arr[i]);
+//    }
+//}
