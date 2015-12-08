@@ -261,6 +261,7 @@ function sgtOnClick() {
             console.log('ths is my result:', response);
             //console.log('AJAX Success function called', response);
             //console.log(response.data[0]);
+            $('#tableBody').html("");
             for (var i = 0; i < response.length; i++) {
                 databaseInfo = response[i];
                 //console.log(response.data.length);
