@@ -7,6 +7,7 @@ var student_grade_input;
 var student_grade_average;
 var databaseInfo;
 var deleteData;
+
 /**
  * student_array - global array to hold student objects
  * @type {Array}
@@ -281,12 +282,13 @@ function sgtOnClick() {
 
 //takes parameter: index and deletes from database using ID property
 function deleteFromDatabase(index) {
-    console.log("delete :", index);
+    //console.log("delete :", index);
     $.ajax({
         dataType: 'json',
         data: {
             //'api_key': '7cdgnHXVY4',
-            'student_id': index
+            student_id:index
+
         },
         method: 'POST',
         //url: 'http://s-apis.learningfuze.com/sgt/delete',
