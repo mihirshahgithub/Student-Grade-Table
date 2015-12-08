@@ -281,13 +281,14 @@ function sgtOnClick() {
 }
 
 //takes parameter: index and deletes from database using ID property
-function deleteFromDatabase(index) {
+function deleteFromDatabase(student_object) {
     //console.log("delete :", index);
     $.ajax({
         dataType: 'json',
         data: {
             //'api_key': '7cdgnHXVY4',
-            student_id:index
+            student_index: student_object
+            //'student_id':index
 
         },
         method: 'POST',
