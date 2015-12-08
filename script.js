@@ -285,11 +285,12 @@ function deleteFromDatabase(index) {
     $.ajax({
         dataType: 'json',
         data: {
-            'api_key': '7cdgnHXVY4',
+            //'api_key': '7cdgnHXVY4',
             'student_id': index
         },
         method: 'POST',
-        url: 'http://s-apis.learningfuze.com/sgt/delete',
+        //url: 'http://s-apis.learningfuze.com/sgt/delete',
+        url:'delete.php',
         success: function (response) {
             console.log('AJAX Success function called', response);
             if (response.success) {
