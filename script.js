@@ -56,19 +56,21 @@ function addClick(student_object) {
     //addClick both adds student to remote server, and functions as dom creation
     $("#addClicked").click(function () {
         var student_name_input = $("#studentName").val();  //here, I'm setting up to add to the DOM
-        $("#studentName").val(student_name_input);
+        //$("#studentName").val(student_name_input);
         var student_course_input = $("#course").val();
-        $("#course").val(student_course_input);
+        //$("#course").val(student_course_input);
         var student_grade_input = $("#studentGrade").val();
-        $("#studentGrade").val(student_grade_input);
+        student_grade_input = parseInt(student_grade_input);
+        //$("#studentGrade").val(student_grade_input);
 
         var student_object = {
             name: student_name_input,
             course: student_course_input,
-            grade: student_grade_input,
+            Grade: student_grade_input,
 
         };
         console.log('student object is', student_object);
+        //console.log(typeof student_object.grade);
         student_array.push(student_object);
         //console.log(student_array);
         gradeAverage();
@@ -105,20 +107,21 @@ function addClick(student_object) {
             data: {
                 'name': student_object.name,
                 'course': student_object.course,
-                'grade': student_object.grade
+                'grade': student_object.Grade
             },
             cache: false,
             method: 'POST',
             success: function (response) {
-                if(response.success) {
+                if (response.success) {
                     sgtOnClick();
                     console.log('AJAX was successful', response);
-                }else{
+                } else {
                     console.error('Add failed');
                 }
             },
-            error: function(){
+            error: function () {
                 console.error("Oh NO!, it failed");
+
             }
 
         });
@@ -163,7 +166,7 @@ function gradeAverage() {
     for (var i = 0; i < student_array.length; i++) {
         if (student_array[i]) {
             count++;
-            sum += parseInt(student_array[i].grade);
+            sum += parseInt(student_array[i].Grade);
         }
     }
     average = sum / count;
@@ -215,7 +218,7 @@ function updateStudentList(student_object) {
             class: "btn btn-danger del-btn",
             text: "Delete",
 
-        }).attr('student_index',student_object.ID);
+        }).attr('student_index', student_object.ID);
         var nRow = $('<tr>');
         // $(nRow).append(nName, nCourse, nGrade, deleteB);
         $(nRow).append(id, nName, nCourse, nGrade, deleteB);
@@ -284,6 +287,7 @@ function sgtOnClick() {
 function deleteFromDatabase(index) {
     //console.log("delete :", index);
     console.log(index);
+    gradeAverage();
     $.ajax({
         dataType: 'text',
         data: {
@@ -294,14 +298,14 @@ function deleteFromDatabase(index) {
         },
         method: 'POST',
         //url: 'http://s-apis.learningfuze.com/sgt/delete',
-        url:'http://localhost:8888/lfz/SGT/delete.php',
+        url: 'http://localhost:8888/lfz/SGT/delete.php',
         success: function (response) {
             console.log('AJAX Success function called', response);
             if (response.success) {
                 deleteData = true;
             }
         },
-        error: function(x,t,m){
+        error: function (x, t, m) {
             console.log(m);
         }
 
@@ -310,28 +314,28 @@ function deleteFromDatabase(index) {
 
 }
 /*
-function errorChecking(){
-    $.ajax({
-      dataType: 'json',
-        data:{
-            'api_key': '7cdgnHXVY4',
-            'server':,
-            'request:',
-            'timeout:',
-        },
-        method: 'POST',
-        url: 'http://s-apis.learningfuze.com/sgt/delete',
-        success: function(response){
-            console.log('AJAX success function called', response);
-            if(response.success){
-              console.log(response.success);
-            } else {
-                error: response
-            }
-        }
-    });
-}
-*/
+ function errorChecking(){
+ $.ajax({
+ dataType: 'json',
+ data:{
+ 'api_key': '7cdgnHXVY4',
+ 'server':,
+ 'request:',
+ 'timeout:',
+ },
+ method: 'POST',
+ url: 'http://s-apis.learningfuze.com/sgt/delete',
+ success: function(response){
+ console.log('AJAX success function called', response);
+ if(response.success){
+ console.log(response.success);
+ } else {
+ error: response
+ }
+ }
+ });
+ }
+ */
 
 //function sort_by_grade() {
 //    console.log('sort_by_grade func called');
