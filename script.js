@@ -215,7 +215,7 @@ function updateStudentList(student_object) {
             class: "btn btn-danger del-btn",
             text: "Delete",
 
-        }).attr('student_index',student_object.id);
+        }).attr('student_index',student_object.ID);
         var nRow = $('<tr>');
         // $(nRow).append(nName, nCourse, nGrade, deleteB);
         $(nRow).append(id, nName, nCourse, nGrade, deleteB);
