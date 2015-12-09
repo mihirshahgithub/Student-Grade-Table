@@ -214,8 +214,8 @@ function updateStudentList(student_object) {
             type: "button",
             class: "btn btn-danger del-btn",
             text: "Delete",
-            student_index: student_object.id
-        });
+
+        }).attr('student_index',student_object.id);
         var nRow = $('<tr>');
         // $(nRow).append(nName, nCourse, nGrade, deleteB);
         $(nRow).append(id, nName, nCourse, nGrade, deleteB);
@@ -281,25 +281,28 @@ function sgtOnClick() {
 }
 
 //takes parameter: index and deletes from database using ID property
-function deleteFromDatabase(student_object) {
+function deleteFromDatabase(index) {
     //console.log("delete :", index);
+    console.log(index);
     $.ajax({
-        dataType: 'json',
+        dataType: 'text',
         data: {
             //'api_key': '7cdgnHXVY4',
-            student_index: student_object
+            student_id: index
             //'student_id':index
 
         },
         method: 'POST',
         //url: 'http://s-apis.learningfuze.com/sgt/delete',
-        url:'delete.php',
+        url:'http://localhost:8888/lfz/SGT/delete.php',
         success: function (response) {
             console.log('AJAX Success function called', response);
             if (response.success) {
                 deleteData = true;
             }
-
+        },
+        error: function(x,t,m){
+            console.log(m);
         }
 
 
