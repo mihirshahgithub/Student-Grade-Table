@@ -45,7 +45,7 @@ $(document).ready(function () {
         console.log(student_array, "student_array before");
         $(this).parent().remove();
         deleteFromDatabase(index);
-        gradeAverage();
+        //gradeAverage();
     });
     //
 
@@ -185,10 +185,10 @@ function gradeAverage() {
 /**
  * updateData - centralized function to update the average and call student list update
  */
-function updateData() {
-    //updateStudentList();
-    gradeAverage();
-}
+//function updateData() {
+//    //updateStudentList();
+//    gradeAverage();
+//}
 /**
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
@@ -218,6 +218,7 @@ function updateStudentList(student_object) {
             class: "btn btn-danger del-btn",
             text: "Delete",
 
+
         }).attr('student_index', student_object.ID);
         var nRow = $('<tr>');
         // $(nRow).append(nName, nCourse, nGrade, deleteB);
@@ -242,7 +243,7 @@ function reset() {
     student_course_input = 0;
     student_grade_input = 0;
     student_grade_average = 0;
-    updateData();
+    //updateData();
 
 }
 reset();
@@ -285,9 +286,9 @@ function sgtOnClick() {
 
 //takes parameter: index and deletes from database using ID property
 function deleteFromDatabase(index) {
+
     //console.log("delete :", index);
     console.log(index);
-    gradeAverage();
     $.ajax({
         dataType: 'text',
         data: {
@@ -303,7 +304,9 @@ function deleteFromDatabase(index) {
             console.log('AJAX Success function called', response);
             if (response.success) {
                 deleteData = true;
+                gradeAverage();
             }
+
         },
         error: function (x, t, m) {
             console.log(m);
@@ -311,7 +314,6 @@ function deleteFromDatabase(index) {
 
 
     })
-
 }
 /*
  function errorChecking(){
