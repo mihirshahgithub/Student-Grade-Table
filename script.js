@@ -44,8 +44,9 @@ $(document).ready(function () {
         delete student_array[index];
         console.log(student_array, "student_array before");
         $(this).parent().remove();
+        gradeAverage();
         deleteFromDatabase(index);
-        //gradeAverage();
+
     });
     //
 
@@ -195,7 +196,7 @@ function gradeAverage() {
 
 //updateStudentList takes the student_object parameter and appends new rows. this function is called in sgtOnClick to get the database on click of the add button
 function updateStudentList(student_object) {
-    console.log("update studnet list called");
+    console.log("update student list called");
     console.log(typeof student_object);
     console.log(student_object);
     if (student_object) {
@@ -214,12 +215,12 @@ function updateStudentList(student_object) {
         });
 
         var deleteB = $('<button>', {
+
             type: "button",
             class: "btn btn-danger del-btn",
             text: "Delete",
-
-
         }).attr('student_index', student_object.ID);
+        gradeAverage();
         var nRow = $('<tr>');
         // $(nRow).append(nName, nCourse, nGrade, deleteB);
         $(nRow).append(id, nName, nCourse, nGrade, deleteB);
